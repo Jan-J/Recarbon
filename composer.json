@@ -1,0 +1,27 @@
+{
+	"name": "doubleking/recarbon",
+	"type": "library",
+	"description": "Simple extensioin for Carbon library.",
+	"keywords": [
+		"date",
+		"time",
+		"DateTime",
+		"Carbon"
+	],
+	"homepage": "https://github.com/doubleking/Recarbon",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Jan Jablonski"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"nesbot/Carbon": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"Recarbon": "src"
+		}
+	}
+}
