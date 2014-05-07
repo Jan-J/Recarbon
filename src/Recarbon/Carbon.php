@@ -13,57 +13,62 @@ class Carbon extends \Carbon\Carbon {
 	public static $time_format = 'H:i';
 	public static $full_time_format = 'H:i:s';
 
-	/**
-	 * @param $time
-	 * @param null $object
-	 * @return static
-	 * @throws \InvalidArgumentException
-	 */
-	public static function createFromDateTime($time, $object = null)
-	{
-		$format = static::$datetime_format;
-
-		if ($object !== null) {
-			$dt = parent::createFromFormat($format, $time, self::safeCreateDateTimeZone($object));
-		} else {
-			$dt = parent::createFromFormat($format, $time);
-		}
-
-		if ($dt instanceof \DateTime) {
-			return self::instance($dt);
-		}
-
-		$errors = \DateTime::getLastErrors();
-		throw new \InvalidArgumentException(implode(PHP_EOL, $errors['errors']));
-	}
-
     /**
-     * @param $time
-     * @param null $object
+     * Create a Carbon instance from a specific format
+     *
+     * @param  string              $format
+     * @param  string              $time
+     * @param  \DateTimeZone|string|null $tz
+     *
      * @return static
+     *
      * @throws \InvalidArgumentException
      */
-    public static function createFromDateTimeT($time, $object = null)
+    public static function createFromFormat($format, $time, $tz = null)
     {
-        $format = static::$datetime_t_format;
-
-        if ($object !== null) {
-            $dt = parent::createFromFormat($format, $time, self::safeCreateDateTimeZone($object));
+        if ($tz !== null) {
+            $dt = parent::createFromFormat($format, $time, static::safeCreateDateTimeZone($tz));
         } else {
             $dt = parent::createFromFormat($format, $time);
         }
 
-        if ($dt instanceof \DateTime) {
+        if ($dt instanceof DateTime) {
             return static::instance($dt);
         }
 
-        $errors = \DateTime::getLastErrors();
-        throw new \InvalidArgumentException(implode(PHP_EOL, $errors['errors']));
+        $errors = static::getLastErrors();
+        throw new InvalidArgumentException(implode(PHP_EOL, $errors['errors']));
     }
 
+	/**
+	 * @param $time
+     * @param  \DateTimeZone|string|null $tz
+	 * @return static
+	 * @throws \InvalidArgumentException
+	 */
+	public static function createFromDateTime($time, $tz = null)
+	{
+		$format = static::$datetime_format;
+
+		return static::createFromFormat($format, $time, $tz);
+	}
+
+    /**
+     * @param $time
+     * @param  \DateTimeZone|string|null $tz
+     * @return static
+     * @throws \InvalidArgumentException
+     */
+    public static function createFromDateTimeT($time, $tz = null)
+    {
+        $format = static::$datetime_t_format;
+
+        return static::createFromFormat($format, $time, $tz);
+    }
 
 	/**
 	 * Create a Carbon instance from a specific format
+     * Fails gracefully to null
 	 *
 	 * @param  string              $format
 	 * @param  string              $time
@@ -88,6 +93,7 @@ class Carbon extends \Carbon\Carbon {
      * constructor that allows better fluent syntax as it allows you to do
      * Carbon::parse('Monday next week')->fn() rather than
      * (new Carbon('Monday next week'))->fn()
+     * Fails gracefully to null
      *
      * @param string              $time
      * @param DateTimeZone|string $tz
