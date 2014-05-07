@@ -32,12 +32,12 @@ class Carbon extends \Carbon\Carbon {
             $dt = parent::createFromFormat($format, $time);
         }
 
-        if ($dt instanceof DateTime) {
+        if ($dt instanceof \DateTime) {
             return static::instance($dt);
         }
 
         $errors = static::getLastErrors();
-        throw new InvalidArgumentException(implode(PHP_EOL, $errors['errors']));
+        throw new \InvalidArgumentException(implode(PHP_EOL, $errors['errors']));
     }
 
 	/**
@@ -72,7 +72,7 @@ class Carbon extends \Carbon\Carbon {
 	 *
 	 * @param  string              $format
 	 * @param  string              $time
-	 * @param  DateTimeZone|string $tz
+	 * @param  \DateTimeZone|string $tz
 	 *
 	 * @return static|null
 	 *
@@ -96,7 +96,7 @@ class Carbon extends \Carbon\Carbon {
      * Fails gracefully to null
      *
      * @param string              $time
-     * @param DateTimeZone|string $tz
+     * @param \DateTimeZone|string $tz
      *
      * @return static|null
      */
