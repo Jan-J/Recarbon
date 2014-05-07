@@ -211,4 +211,21 @@ class Carbon extends \Carbon\Carbon {
 		return $this->format('Ymd\THis');
 	}
 
+    /**
+     * Closest quarter of an hour
+     *
+     * @return static
+     */
+    public function closestQuarterOfHour()
+    {
+        $quarter = 15;
+        $delta = $this->minute % $quarter;
+
+        $minutes_to_add = ( $delta == 0 ) ? 0 : $quarter - $delta;
+
+        return $this
+            ->addMinutes( $minutes_to_add )
+            ->second(0);
+    }
+
 }
