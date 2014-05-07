@@ -69,7 +69,7 @@ class Carbon extends \Carbon\Carbon {
 	 * @param  string              $time
 	 * @param  DateTimeZone|string $tz
 	 *
-	 * @return Carbon|null
+	 * @return static|null
 	 *
 	 */
 	public static function createFromFormatFailGracefully($format, $time, $tz = null){
@@ -82,6 +82,28 @@ class Carbon extends \Carbon\Carbon {
 			return null;
 		}
 	}
+
+    /**
+     * Create a carbon instance from a string.  This is an alias for the
+     * constructor that allows better fluent syntax as it allows you to do
+     * Carbon::parse('Monday next week')->fn() rather than
+     * (new Carbon('Monday next week'))->fn()
+     *
+     * @param string              $time
+     * @param DateTimeZone|string $tz
+     *
+     * @return static|null
+     */
+    public static function parseFailGracefully($time, $tz = null){
+        try
+        {
+            return static::parse($time, $tz);
+        }
+        catch(\Exception $e)
+        {
+            return null;
+        }
+    }
 
 	/**
 	 * Returns date in format: d/m/Y
