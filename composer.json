@@ -15,6 +15,12 @@
 			"name": "Jan Jablonski"
 		}
 	],
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/doubleking/Carbon.git"
+        }
+    ],
 	"require": {
 		"php": ">=5.3.0",
 		"nesbot/Carbon": "*"
@@ -23,5 +29,6 @@
 		"psr-0": {
 			"Recarbon": "src"
 		}
-	}
+	},
+	"minimum-stability": "dev" 
 }
