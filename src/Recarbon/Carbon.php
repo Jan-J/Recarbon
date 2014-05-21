@@ -234,4 +234,71 @@ class Carbon extends \Carbon\Carbon {
             ->second(0);
     }
 
+    /**
+     * Modifies(increments) date basing on interval made from interval string argument
+     * e.g. '2 months', 'month-3', '2 minutes 20 seconds' etc.
+     *
+     * @param string $interval
+     * @param bool $reverse
+     * @return $this
+     * @throws \InvalidArgumentException
+     */
+    public function addFromIntervalString($interval, $reverse = false){
+        $intervals_number = preg_match_all('/((\d+(\s|-)*)[A-z]+)|([A-z]+(-*\d+)|([A-z]+))/', $interval, $matches);
+
+        if( $intervals_number > 0 )
+            $intervals = $matches[0];
+        else
+            $intervals = array();
+
+        foreach($intervals as $interval)
+        {
+            if( preg_match('/\d+/', $interval, $matches) )
+            {
+                $quantity = intval($matches[0]);
+            }
+            else
+            {
+                $quantity = 1;
+            }
+
+            if( preg_match('/([A-z]+)/', $interval, $matches) )
+            {
+                $period = preg_replace('/s$/', '', $matches[0]);
+            }
+            else
+            {
+                throw new \InvalidArgumentException('Invalid interval string provided: ' . $interval);
+            }
+
+            if( $reverse )
+                $method_prefix = 'sub';
+            else
+                $method_prefix = 'add';
+
+            $method = $method_prefix . mb_convert_case($period, MB_CASE_TITLE) . 's';
+
+            if( ! method_exists($this, $method))
+            {
+                throw new \InvalidArgumentException('Invalid interval string provided: ' . $interval);
+            }
+
+            $this->$method($quantity);
+
+        }
+
+        return $this;
+    }
+
+    /**
+     * Modifies(decrements) date basing on interval made from interval string argument
+     * e.g. '2 months', 'month-3', '2 minutes 20 seconds' etc.
+     *
+     * @param string $interval
+     * @return $this
+     */
+    public function subFromIntervalString($interval){
+        return $this->addFromIntervalString($interval, true);
+    }
+
 }
