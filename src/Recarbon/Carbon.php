@@ -222,16 +222,27 @@ class Carbon extends \Carbon\Carbon {
      *
      * @return static
      */
-    public function closestQuarterOfHour()
+    public function closestQuarterOfHour($round_down = false)
     {
         $quarter = 15;
         $delta = $this->minute % $quarter;
 
-        $minutes_to_add = ( $delta == 0 ) ? 0 : $quarter - $delta;
+        if( ! $round_down )
+        {
+            $minutes_to_add = ( $delta == 0 ) ? 0 : $quarter - $delta;
 
-        return $this
-            ->addMinutes( $minutes_to_add )
-            ->second(0);
+            return $this
+                ->addMinutes( $minutes_to_add )
+                ->second(0);
+        }
+        else
+        {
+            $minutes_to_sub = $delta;
+
+            return $this
+                ->subMinutes( $minutes_to_sub )
+                ->second(0);
+        }
     }
 
     /**
