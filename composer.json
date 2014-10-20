@@ -1,5 +1,5 @@
 {
-	"name": "doubleking/recarbon",
+	"name": "jan-j/recarbon",
 	"type": "library",
 	"description": "Simple extensioin for Carbon library.",
 	"keywords": [
@@ -8,7 +8,7 @@
 		"DateTime",
 		"Carbon"
 	],
-	"homepage": "https://github.com/doubleking/Recarbon",
+	"homepage": "https://github.com/Jan-J/Recarbon",
 	"license": "MIT",
 	"authors": [
 		{
